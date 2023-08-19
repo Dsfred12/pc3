@@ -1,0 +1,109 @@
+#PREGUNTA 1
+def main():
+    while True:
+        try:
+            input_str = input("Ingrese una fracción en el formato X/Y: ")
+            x_str, y_str = input_str.split('/')
+            x = int(x_str)
+            y = int(y_str)
+            if y == 0:
+                raise ZeroDivisionError("El denominador no puede ser cero.")
+            elif x < y:
+                print("X debe ser mayor o igual a Y.")
+            else:
+                fraction_percent = (x / y) * 100
+                if fraction_percent < 1:
+                    print("E")
+                elif fraction_percent > 99:
+                    print("F")
+                else:
+                    rounded_percent = round(fraction_percent)
+                    print(f"{rounded_percent}%")
+            break  # Sale del ciclo si todo es válido
+        except ValueError:
+            print("Error: Ingrese números enteros para X e Y.")
+        except ZeroDivisionError as e:
+            print(f"Error: {e}")         
+if __name__ == "__main__":
+    main()
+#PREGUTNA 2
+import math
+class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+    def calcular_area(self):
+        area = math.pi * (self.radio ** 2)
+        return area
+radio_del_circulo = float(input("Ingresa el radio del círculo: "))
+mi_circulo = Circulo(radio_del_circulo)
+area_del_circulo = mi_circulo.calcular_area()
+print(f"El área del círculo es: {area_del_circulo}")
+#PREGUNTA 3
+class Rectangulo:
+    def __init__(self, largo, ancho):
+        self.largo = largo
+        self.ancho = ancho
+    def calcular_area(self):
+        area = self.largo * self.ancho
+        return area
+largo_del_rectangulo = float(input("Ingresa el largo del rectángulo: "))
+ancho_del_rectangulo = float(input("Ingresa el ancho del rectángulo: "))
+mi_rectangulo = Rectangulo(largo_del_rectangulo, ancho_del_rectangulo)
+area_del_rectangulo = mi_rectangulo.calcular_area()
+print(f"El área del rectángulo es: {area_del_rectangulo}")
+#PREGUNTA 4
+class Rectangulo:
+    def __init__(self, largo, ancho):
+        self.largo = largo
+        self.ancho = ancho
+    def calcular_area(self):
+        area = self.largo * self.ancho
+        return area
+largo_del_rectangulo = float(input("Ingresa el largo del rectángulo: "))
+ancho_del_rectangulo = float(input("Ingresa el ancho del rectángulo: "))
+mi_rectangulo = Rectangulo(largo_del_rectangulo, ancho_del_rectangulo)
+area_del_rectangulo = mi_rectangulo.calcular_area()
+print(f"El área del rectángulo es: {area_del_rectangulo}")
+
+#PREGUNTA 5
+class Alumno:
+    def __init__(self, nombre, numero_registro):
+        self.nombre = nombre
+        self.numero_registro = numero_registro
+        self.edad = None
+        self.notas = []
+
+    def display(self):
+        print(f"Nombre: {self.nombre}")
+        print(f"Número de Registro: {self.numero_registro}")
+        if self.edad is not None:
+            print(f"Edad: {self.edad}")
+        if self.notas:
+            print("Notas:")
+            for i, nota in enumerate(self.notas, start=1):
+                print(f"Nota {i}: {nota}")
+
+    def setAge(self, edad):
+        self.edad = edad
+
+    def setNota(self, notas):
+        self.notas = notas
+nombre_alumno = input("Ingresa el nombre del alumno: ")
+numero_registro_alumno = input("Ingresa el número de registro del alumno: ")
+mi_alumno = Alumno(nombre_alumno, numero_registro_alumno)
+edad_alumno = int(input("Ingresa la edad del alumno: "))
+mi_alumno.setAge(edad_alumno)
+num_notas = int(input("¿Cuántas notas deseas asignar? "))
+notas_alumno = []
+for i in range(num_notas):
+    nota = float(input(f"Ingrese la nota {i + 1}: "))
+    notas_alumno.append(nota)
+mi_alumno.setNota(notas_alumno)
+print("\nInformación del Alumno:")
+mi_alumno.display()
+
+#Pregunta 7
+#nopudeprofe
+
+
+    
