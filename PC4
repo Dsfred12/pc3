@@ -1,0 +1,116 @@
+import requests
+n = float(input('Ingrese la cantidad de Bitcoins que posee: '))
+target_url = 'https://api.coindesk.com/v1/bpi/currentprice.json'
+
+try:
+    response = requests.get(target_url)
+    response.raise_for_status()
+    data = response.json()
+    current_price = float(data['bpi']['USD']['rate_float'])
+  
+    total_cost = n * current_price
+    print(f'El costo total de sus {n} Bitcoins en USD es: ${total_cost:,.4f}')
+
+except requests.RequestException as e:
+    print(f'Error al consultar la API: {e}')
+
+
+#pregunta 2
+
+from pyfiglet import Figlet
+import random
+figlet = Figlet()
+available_fonts = figlet.getFonts()
+selected_font = input('Ingrese el nombre de una fuente a utilizar (deje en blanco para seleccionar aleatoriamente): ')
+if not selected_font:
+    selected_font = random.choice(available_fonts)
+    print(f'Se ha seleccionado la fuente: {selected_font}')
+figlet.setFont(font=selected_font)
+user_text = input('Ingrese el texto que desea imprimir: ')
+print(figlet.renderText(user_text))
+#pregunta 4
+def create_table_file(n):
+
+    with open(f'tabla-{n}.txt', 'w') as f:
+
+        for i in range(1, 11):
+      
+            f.write(f'{n} x {i} = {n*i}\n')
+
+
+def read_table_file(n):
+    try:
+
+        with open(f'tabla-{n}.txt', 'r') as f:
+
+            print(f.read())
+    except FileNotFoundError:
+
+        print('El archivo no existe.')
+
+
+def read_specific_line(n, m):
+    try:
+ 
+        with open(f'tabla-{n}.txt', 'r') as f:
+         
+            lines = f.readlines()
+  
+            print(lines[m-1].strip())
+    except FileNotFoundError:
+        print('El archivo no existe.')
+while True:
+    print('\nMenú:')
+    print('1. Crear archivo con tabla de multiplicar')
+    print('2. Leer tabla de multiplicar de un archivo')
+    print('3. Leer una línea específica de la tabla de un archivo')
+    print('4. Salir')
+    choice = input('Seleccione una opción: ')
+    if choice == '1':
+        n = int(input('Ingrese un número entre 1 y 10: '))
+        create_table_file(n)
+    elif choice == '2':
+        n = int(input('Ingrese un número entre 1 y 10: '))
+        read_table_file(n)
+    elif choice == '3':
+        n = int(input('Ingrese el número n entre 1 y 10: '))
+        m = int(input('Ingrese el número m entre 1 y 10: '))
+        read_specific_line(n, m)
+    elif choice == '4':
+        break
+    else:
+        print('Opción no válida.')
+ #pregunta 5 
+import sqlite3
+import requests
+from datetime import datetime
+
+conn = sqlite3.connect('cryptos.db')
+cursor = conn.cursor()
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS bitcoin (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT,
+    usd_price REAL,
+    gbp_price REAL,
+    eur_price REAL
+)''')
+conn.commit()
+
+try:
+    response = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    response.raise_for_status()
+    data = response.json()
+    usd_price = float(data['bpi']['USD']['rate_float'])
+    gbp_price = float(data['bpi']['GBP']['rate_float'])
+    eur_price = float(data['bpi']['EUR']['rate_float'])
+    current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    cursor.execute('INSERT INTO bitcoin (date, usd_price, gbp_price, eur_price) VALUES (?, ?, ?, ?)',
+                   (current_date, usd_price, gbp_price, eur_price))
+    conn.commit()
+    print(f'Datos insertados correctamente para la fecha {current_date}')
+
+except requests.RequestException as e:
+    print(f'Error al consultar la API: {e}')
+conn.close()
